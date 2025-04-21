@@ -27,6 +27,7 @@ public class JwtTokenService {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
+                //.expiresAt(now.plus(1, ChronoUnit.MINUTES)) // 테스트용 1분
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();

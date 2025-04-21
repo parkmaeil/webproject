@@ -6,10 +6,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController // REST API용 컨트롤러임을 명시
+@RestController
 public class AccountController {
-    // 루트 주소로 GET 요청이 오면 "Hello Spring Boot"를 응답
-    @GetMapping("/")
+     @GetMapping("/")
      public String index(){
          return "Hello Spring Boot";
      }
