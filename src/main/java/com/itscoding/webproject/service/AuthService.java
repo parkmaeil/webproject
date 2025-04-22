@@ -2,7 +2,7 @@ package com.itscoding.webproject.service;
 
 import com.itscoding.webproject.dto.AccountViewDTO;
 import com.itscoding.webproject.entity.Account;
-import com.itscoding.webproject.repository.AccountRepository;
+import com.itscoding.webproject.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,9 +20,9 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AccountService  implements  UserDetailsService{
+public class AuthService implements  UserDetailsService{
 
-    private final AccountRepository accountRepository;
+    private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -31,12 +31,12 @@ public class AccountService  implements  UserDetailsService{
         if(account.getRole()==null){
             account.setRole("ROLE_USER");
         }
-        return accountRepository.save(account);
+        return authRepository.save(account);
     }
 
     @Transactional(readOnly=true)
     public List<AccountViewDTO> findAll(){
-        List<Account> accounts=accountRepository.findAll();
+        List<Account> accounts= authRepository.findAll();
         return accounts.stream().map(account -> {
             return  new AccountViewDTO(account.getId(), account.getEmail(), account.getRole()) ;
         }).toList();
@@ -45,7 +45,7 @@ public class AccountService  implements  UserDetailsService{
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Account> optionalAccount=accountRepository.findByEmail(email);
+        Optional<Account> optionalAccount= authRepository.findByEmail(email);
         if(!optionalAccount.isPresent()){
             throw new UsernameNotFoundException("Account not found");
         }

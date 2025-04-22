@@ -1,16 +1,15 @@
 package com.itscoding.webproject.config;
 
 import com.itscoding.webproject.entity.Account;
-import com.itscoding.webproject.service.AccountService;
+import com.itscoding.webproject.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Configuration;
 
 //@Configuration
 @RequiredArgsConstructor
 public class InitData implements CommandLineRunner {
 
-    private final AccountService accountService;
+    private final AuthService authService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -25,8 +24,8 @@ public class InitData implements CommandLineRunner {
         account02.setPassword("bbbbb");
         account02.setRole("ROLE_ADMIN");
 
-        accountService.save(account01);
-        accountService.save(account02);
+        authService.save(account01);
+        authService.save(account02);
 
     }
 }

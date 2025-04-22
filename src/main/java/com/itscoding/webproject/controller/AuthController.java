@@ -4,7 +4,7 @@ import com.itscoding.webproject.dto.AccountDTO;
 import com.itscoding.webproject.dto.TokenDTO;
 import com.itscoding.webproject.dto.UserLoginDTO;
 import com.itscoding.webproject.entity.Account;
-import com.itscoding.webproject.service.AccountService;
+import com.itscoding.webproject.service.AuthService;
 import com.itscoding.webproject.service.JwtTokenService;
 import com.itscoding.webproject.util.constants.AccountError;
 import com.itscoding.webproject.util.constants.AccountSuccess;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class AuthController {
 
-    private  final AccountService accountService;
+    private  final AuthService authService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenService tokenService;
 
@@ -53,7 +53,7 @@ public class AuthController {
             account.setEmail(accountDTO.getEmail());
             account.setPassword(accountDTO.getPassword());
             account.setRole("ROLE_USER");
-            accountService.save(account);
+            authService.save(account);
             return ResponseEntity.ok(AccountSuccess.ACCOUNT_ADDED.toString());
         }catch(Exception e){
             log.debug(AccountError.ADD_ACCOUNT_ERROR.toString()+": "+e.getMessage());
@@ -64,6 +64,6 @@ public class AuthController {
     @GetMapping("/users")
     @SecurityRequirement(name = "itscoding-api")
     public ResponseEntity<?> users(){
-        return new ResponseEntity<>(accountService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(authService.findAll(), HttpStatus.OK);
     }
 }
